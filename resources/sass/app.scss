@@ -1,0 +1,65 @@
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Inertia Styling
+@import "nprogress";
+
+.clickable {
+  cursor: pointer;
+}
+
+// TODO Pull this color value from orange actions variables.scss
+.action-text {
+    color: #FF9802 !important;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+}
+
+// TODO Pull this color value from darken-5 variables.scss
+.action-button-text {
+    color: #193C73;
+}
+
+.button-opacity {
+    opacity: 0.9;
+}
+
+.header-text {
+    font-family: 'Roboto Slab', serif;
+    font-size: 32px;
+    color: white;
+}
+
+@media (max-width: 599px) {
+  .v-input--checkbox.responsive .v-label {
+    height: auto;
+  }
+
+  .v-chip.responsive, .v-chip.v-size--default.responsive {
+    min-height: 32px;
+    height: unset;
+
+    .v-chip__content {
+      white-space: pre-wrap;
+      padding: 6px 0;
+    }
+  }
+}
+.v-btn::before {
+    background-color: transparent !important;
+}
+
+.v-btn, .v-btn:focus, .v-btn:hover {
+    outline: none !important;
+    background-color: transparent !important;
+}
+
+.no-underline, .no-underline:hover, .no-underline:focus {
+    text-decoration: none;
+}
+
+// Remove ripple effects
+.v-ripple__container {
+    display:none !important;
+}

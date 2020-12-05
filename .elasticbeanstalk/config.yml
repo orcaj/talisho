@@ -1,0 +1,18 @@
+branch-defaults:
+  develop:
+    environment: thesnor-qa
+    group_suffix: null
+global:
+  application_name: thesnor
+  branch: null
+  default_ec2_keyname: thesnor-eb-qa
+  default_platform: PHP 7.3
+  default_region: us-east-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: thesnor
+  repository: null
+  sc: git
+  workspace_type: Application

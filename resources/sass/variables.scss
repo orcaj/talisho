@@ -1,0 +1,19 @@
+@import "~vuetify/src/styles/tools/_functions.sass";
+
+$blue: () !default;
+$blue: map-deep-merge(
+        (
+            'darken-5': #193C73,
+        ),
+        $blue
+);
+
+$orange: () !default;
+$orange: map-deep-merge(
+        (
+            "actions": #FF9802,
+        ),
+        $orange
+);
+
+@import '~vuetify/src/styles/styles.sass';

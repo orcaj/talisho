@@ -1,0 +1,40 @@
+version: 0.2
+
+env:
+  variables:
+    COMPOSER_CACHE_DIR: .cache/composer
+    COMPOSER_MEMORY_LIMIT: "4G"
+
+  secrets-manager:
+    NOVA_USERNAME: "Laravel/Nova:NOVA_USERNAME"
+    NOVA_PASSWORD: "Laravel/Nova:NOVA_PASSWORD"
+
+phases:
+  install:
+    runtime-versions:
+      php: 7.3
+      nodejs: 12
+    commands:
+      - echo Install started on `date`
+      - php -m
+      - npm install
+  pre_build:
+    commands:
+      - echo Prebuild started on `date`
+      - mkdir -p .cache/composer
+      - composer config "http-basic.nova.laravel.com" "${NOVA_USERNAME}" "${NOVA_PASSWORD}"
+  build:
+    commands:
+      - echo Build started on `date`
+      - composer update --no-progress --no-suggest --optimize-autoloader --no-interaction --prefer-dist
+      - npm run production
+      - echo Successfully built the app
+
+cache:
+  paths:
+    - .cache/composer/**/*
+    - /usr/lib/node_modules/**/*
+
+artifacts:
+  files:
+    - '**/*'
