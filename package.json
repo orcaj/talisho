@@ -29,6 +29,7 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.1.7",
         "@inertiajs/inertia-vue": "^0.1.2",
+        "v-stripe-elements": "^1.2.0",
         "vuetify": "^2.2.3",
         "vuetify-loader": "^1.4.4"
     }

@@ -15,7 +15,7 @@
         "inertiajs/inertia-laravel": "^0.2.4",
         "laravel/framework": "^6.2",
         "laravel/horizon": "^3.4",
-        "laravel/nova": "~2.0",
+        "laravel/nova": "*",
         "laravel/tinker": "^2.0",
         "league/csv": "^9.6",
         "league/flysystem-aws-s3-v3": "^1.0",
@@ -77,8 +77,8 @@
     },
     "repositories": [
         {
-            "type": "composer",
-            "url": "https://nova.laravel.com"
+            "type": "path",
+            "url": "./nova"
         }
     ]
 }

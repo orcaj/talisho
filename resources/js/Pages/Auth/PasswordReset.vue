@@ -39,57 +39,57 @@
             </v-form>
         </template>
         <template v-slot:actions>
-            <v-spacer/>
-            <v-btn type="submit" class="mr-4" color="primary darken-2" form="reset-password">Reset Password</v-btn>
+            <v-spacer />
+            <v-btn
+                type="submit"
+                class="mr-4"
+                color="primary darken-2"
+                form="reset-password"
+                >Reset Password</v-btn
+            >
         </template>
-
     </base-auth>
 </template>
 
 <script>
-    import FormValidation from "../../mixins/FormValidation";
-    import BaseAuth from "../../Shared/BaseAuth";
-    import Layout from "../../Shared/Layout";
+import FormValidation from "../../mixins/FormValidation";
+import BaseAuth from "../../Shared/BaseAuth";
+import Layout from "../../Shared/Layout";
 
-    export default {
-        layout: Layout,
-        components: {
-            BaseAuth,
+export default {
+    layout: Layout,
+    components: {
+        BaseAuth
+    },
+    mixins: [FormValidation],
+    props: {
+        email: {
+            type: String,
+            required: true
         },
-        mixins: [
-            FormValidation,
-        ],
-        props: {
-            email: {
-                type: String,
-                required: true
-            },
-            token: {
-                type: String,
-                required: true
+        token: {
+            type: String,
+            required: true
+        }
+    },
+    data() {
+        return {
+            formData: {
+                email: "",
+                password: "",
+                password_confirmation: "",
+                token: ""
             }
-        },
-        data() {
-            return {
-                formData: {
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                    token: ''
-                }
-            }
-        },
-        created() {
-            this.formData.email = this.email;
-            this.formData.token = this.token;
-        },
-        methods: {
-            async submit() {
-
-                this.$inertia.post(this.route('password.update'), this.formData);
-
-            }
+        };
+    },
+    created() {
+        this.formData.email = this.email;
+        this.formData.token = this.token;
+    },
+    methods: {
+        async submit() {
+            this.$inertia.post(this.route("password.update"), this.formData);
         }
     }
+};
 </script>
-

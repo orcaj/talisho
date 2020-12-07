@@ -1,5 +1,5 @@
 <template>
-    <base-auth title="Welcome Back!">
+    <base-auth title="Please Sign In">
         <template>
             <v-form @submit.prevent="submit" id="login-form">
                 <v-text-field
@@ -34,10 +34,28 @@
         <template v-slot:actions>
             <v-row justify="center">
                 <v-col cols="10">
-                    <v-btn class="px-4 white--text" width="100%" type="submit" color="blue darken-5" form="login-form">Login</v-btn>
+                    <v-btn
+                        class="px-4 white--text"
+                        width="100%"
+                        type="submit"
+                        color="blue darken-5"
+                        form="login-form"
+                        >Login</v-btn
+                    >
                 </v-col>
                 <v-col cols="10">
-                    <v-btn width="100%" text @click="redirectToPasswordReset">Forgot your password?</v-btn>
+                    <v-btn width="100%" text @click="redirectToPasswordReset"
+                        >Forgot your password?</v-btn
+                    >
+                </v-col>
+                <v-col cols="10">
+                    <v-btn
+                        class="px-4 white--text"
+                        width="100%"
+                        color="orange accent-3"
+                        @click="redirectToRegister"
+                        >New Company Registration</v-btn
+                    >
                 </v-col>
             </v-row>
         </template>
@@ -45,36 +63,37 @@
 </template>
 
 <script>
-    import FormValidation from "../../mixins/FormValidation";
-    import BaseAuth from "../../Shared/BaseAuth";
-    import Layout from "../../Shared/Layout";
+import FormValidation from "../../mixins/FormValidation";
+import BaseAuth from "../../Shared/BaseAuth";
+import Layout from "../../Shared/Layout";
 
-    export default {
-        layout: Layout,
-        components: {
-          BaseAuth
-        },
-        mixins: [
-            FormValidation,
-        ],
-        data() {
-            return {
-                formData: {
-                    email: '',
-                    password: '',
-                }
+export default {
+    layout: Layout,
+    components: {
+        BaseAuth
+    },
+    mixins: [FormValidation],
+    data() {
+        return {
+            formData: {
+                email: "",
+                password: ""
             }
+        };
+    },
+    methods: {
+        async submit() {
+            this.$inertia.post("/login", {
+                email: this.formData.email,
+                password: this.formData.password
+            });
         },
-        methods: {
-            async submit() {
-                this.$inertia.post('/login',{
-                    email: this.formData.email,
-                    password: this.formData.password,
-                });
-            },
-            redirectToPasswordReset() {
-                this.$inertia.visit(this.route('password.request'));
-            }
+        redirectToPasswordReset() {
+            this.$inertia.visit(this.route("password.request"));
         },
+        redirectToRegister() {
+            this.$inertia.visit(this.route("register"));
+        }
     }
+};
 </script>
