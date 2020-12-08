@@ -1,5 +1,5 @@
 <template>
-    <base-auth title="Please Sign Up" lgSize="8">
+    <base-auth title="Please Sign Up" lgSize=8>
         <v-stepper v-model="currentStep">
             <v-stepper-header>
                 <v-stepper-step step="1" editable>
@@ -7,14 +7,14 @@
                 </v-stepper-step>
 
                 <v-stepper-step step="2" :editable="companyInfoValid">
-                    Primary Contact Informationz
+                    Primary Contact Information
                 </v-stepper-step>
 
                 <v-stepper-step
                     step="3"
                     :editable="companyInfoValid && userInfoValid"
                 >
-                    Primary Contact Informationz
+                    Payment Information
                 </v-stepper-step>
             </v-stepper-header>
 
@@ -35,11 +35,11 @@
             </v-stepper-content>
 
             <v-stepper-content step="3">
-                asdf
-                <v-stripe-card
-                    v-model="source"
-                    :api-key="process.env.VUE_APP_STRIPE_API_KEY"
-                ></v-stripe-card>
+               <checkout 
+                    :userInfo.sync="formData.userInfo"
+                    @valid="updateUserInfoStatus"
+                    @next="next">
+               </checkout>
             </v-stepper-content>
         </v-stepper>
     </base-auth>
@@ -52,22 +52,19 @@ import Layout from "../../Shared/Layout";
 
 import Company from "./RegisterStep/Company";
 import User from "./RegisterStep/User";
-import { VStripeCard } from 'v-stripe-elements'
+import Checkout from "./RegisterStep/Checkout";
 
 export default {
-        
-
     layout: Layout,
     components: {
         BaseAuth,
         Company,
         User,
-        VStripeCard
+        Checkout
     },
     mixins: [FormValidation],
     data() {
         return {
-            source: null,
             currentStep: 3,
             companyInfoValid: false,
             userInfoValid: false,
@@ -92,7 +89,7 @@ export default {
         };
     },
     created() {
-        console.log("vudddde ke created", process.env.VUE_APP_STRIPE_API_KEY)
+        console.log("vudddde ke created", process.env.VUE_APP_STRIPE_API_KEY);
     },
     methods: {
         next() {

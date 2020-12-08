@@ -116,4 +116,8 @@ class UserController extends Controller
 
         return Redirect::back()->with('success', 'Employee removed.');
     }
+
+    public function test(){
+        return Inertia::render('Auth/RegisterStep/Checkout');
+    }
 }

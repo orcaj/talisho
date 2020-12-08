@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use TalihoNotifiable, SoftDeletes, ReceivesWelcomeNotification, HasRoles;
+    use TalihoNotifiable, SoftDeletes, ReceivesWelcomeNotification, HasRoles, Billable;
 
     /**
      * The attributes that are mass assignable.

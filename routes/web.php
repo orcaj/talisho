@@ -84,6 +84,8 @@ use App\Http\Controllers\Auth\WelcomeNotificationController;
 
 Route::get('/', WelcomeController::class);
 
+Route::get('/test', 'App\Http\Controllers\UserController@test');
+
 Route::get('/qr-codes/{qrcode}', \App\Http\Controllers\QrCodeExternalController::class);
 
 Route::namespace('App\Http\Controllers')->group(function () {
@@ -155,7 +157,7 @@ Route::middleware(['auth'])->group(function () {
             'store' => 'users.store',
             'edit' => 'users.edit',
             'update' => 'users.update',
-            'destroy' => 'users.delete'
+            'destroy' => 'users.delete',
         ]);
 
     Route::resource('organizations.projects', OrganizationProjectController::class)
