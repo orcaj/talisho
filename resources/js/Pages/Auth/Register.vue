@@ -41,7 +41,7 @@
                             <card
                                 class="stripe-card"
                                 :class="{ complete }"
-                                stripe="pk_test_51Hv6tcBhv1ikQ8E6C1hg7nGGfc00vaUj1MFBuFm7iwp2obK12SjJRJySZqZ0HFjbTpjWahcWhgcuKPewlXhK1DEk00CNr4RgnU"
+                                stripe="{stripe_pk}"
                                 :options="stripeOptions"
                                 @change="complete = $event.complete"
                             />
@@ -94,9 +94,16 @@ export default {
         Checkout,
         Card
     },
+    props: {
+        stripe_pk: {
+            type: String,
+            required: true
+        }
+    },
     mixins: [FormValidation],
     data() {
         return {
+            // stripe_pk:"",
             complete: false,
             currentStep: 1,
             companyInfoValid: false,
@@ -120,14 +127,15 @@ export default {
                 },
                 payInfo: {
                     token: "",
-                    card_last4:"",
-                    card_brand:"",
+                    card_last4: "",
+                    card_brand: ""
                 }
             },
             stripeOptions: {}
         };
     },
-    created() {},
+    created() {
+    },
     methods: {
         next() {
             this.currentStep = parseInt(this.currentStep) + 1;
@@ -148,12 +156,12 @@ export default {
             });
         },
         pay() {
-            this.complete=false;
+            this.complete = false;
             // See https://stripe.com/docs/api#tokens for the token object.
             // See https://stripe.com/docs/api#errors for the error object.
             // More general https://stripe.com/docs/stripe.js#stripe-create-token.
             createToken().then(data => {
-                console.log('toekn', data.token)
+                console.log("toekn", data.token);
                 this.formData.payInfo.token = data.token.id;
                 this.formData.payInfo.card_brand = data.token.card.brand;
                 this.formData.payInfo.card_last4 = data.token.card.last4;

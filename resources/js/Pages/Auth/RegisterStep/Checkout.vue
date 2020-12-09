@@ -2,10 +2,11 @@
     <div id="app">
         <v-row>
             <v-col cols="12">
+                <h1>{{stripe_pk}}</h1>
                 <card
                     class="stripe-card"
                     :class="{ complete }"
-                    stripe="pk_test_51Hv6tcBhv1ikQ8E6C1hg7nGGfc00vaUj1MFBuFm7iwp2obK12SjJRJySZqZ0HFjbTpjWahcWhgcuKPewlXhK1DEk00CNr4RgnU"
+                    :stripe="{stripe_pk}"
                     :options="stripeOptions"
                     @change="complete = $event.complete"
                 />
@@ -35,9 +36,14 @@ export default {
     props: {
         payInfo: {
             type: Object
+        },
+        stripe_pk: {
+            type: String,
+            required: true
         }
     },
     data() {
+        console.log("stripe_pk", this.stripe_pk)
         return {
             complete: false,
             stripeOptions: {
@@ -58,7 +64,6 @@ export default {
             createToken().then(data => {
                 console.log(data.token);
                 this.payInfo.token = data.token.card.id;
-                
             });
         }
     }

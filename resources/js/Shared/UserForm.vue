@@ -1,5 +1,5 @@
 <template>
-    <base-form :isActive="formData.company_account_status" :title="user.isRegistered ? 'Edit Profile' : 'Set Profile'">
+    <base-form :isActive="formData.company_account_status"  :title="user.isRegistered ? 'Edit Profile' : 'Set Profile'">
         <template>
             <v-form @submit.prevent="submit" id="set-profile">
                 <v-col>
@@ -196,6 +196,7 @@
             console.log("asdfasdf", this.user)
             return {
                 formData: {
+                    id:this.user.id,
                     email: this.user.email,
                     first_name: this.user.first_name,
                     last_name: this.user.last_name,

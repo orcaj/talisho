@@ -17,3 +17,6 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::post('endpoint/account_status','WelcomeController@account_status');
+// subscrition
+// Route::post('cancel_subscription', 'UserController@cancel_subscription');
+// Route::post('retry_subscription', 'UserController@retry_subscription');
