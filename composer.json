@@ -14,7 +14,6 @@
         "fideloper/proxy": "^4.0",
         "inertiajs/inertia-laravel": "^0.2.4",
         "laravel/framework": "^6.2",
-        
         "laravel/nova": "*",
         "laravel/tinker": "^2.0",
         "league/csv": "^9.6",
@@ -25,8 +24,8 @@
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-permission": "^3.6",
         "spatie/laravel-welcome-notification": "^1.0",
-        "tightenco/ziggy": "^0.8.1",
-        "laravel/cashier": "^12.3"
+        "stripe/stripe-php": "^7.66",
+        "tightenco/ziggy": "^0.8.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

@@ -86,10 +86,18 @@ Route::get('/', WelcomeController::class);
 
 Route::get('/test', 'App\Http\Controllers\UserController@test');
 
+
+// subscrition
+Route::post('/cancel_subscription', 'App\Http\Controllers\UserController@cancel_subscription');
+Route::post('/retry_subscription', 'App\Http\Controllers\UserController@retry_subscription');
+
+
+
 Route::get('/qr-codes/{qrcode}', \App\Http\Controllers\QrCodeExternalController::class);
 
 Route::namespace('App\Http\Controllers')->group(function () {
     Auth::routes();
+    Auth::routes(['verify' => true]);
 });
 
 Route::group(['middleware' => [WelcomesNewUsers::class,]], function () {

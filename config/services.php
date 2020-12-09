@@ -31,8 +31,12 @@ return [
     ],
     'stripe' => [
         'model'  => App\User::class,
-        'key' => env('STRIPE_KEY'),
-        'secret' => env('STRIPE_SECRET'),
+        'pk' => env('STRIPE_PUBLIC_KEY'),
+        'sk' => env('STRIPE_SECRET_KEY'),
+        'price_id' => env('STRIPE_PRICE_ID'),
+        
+        'test_hook' => env('STRIPE_TEST_WEB_HOOK'),
+        'live_hook' => env('STRIPE_LIVE_WEB_HOOK'),
     ]
 
 ];

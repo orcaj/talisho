@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptionItemsTable extends Migration
+class CreatePaymentInfosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateSubscriptionItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscription_items', function (Blueprint $table) {
+        Schema::create('payment_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('subscription_id');
-            $table->string('stripe_id')->index();
-            $table->string('stripe_plan');
-            $table->integer('quantity');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('sub_id');
+            
             $table->timestamps();
-
-            $table->unique(['subscription_id', 'stripe_plan']);
         });
     }
 
@@ -32,6 +30,6 @@ class CreateSubscriptionItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscription_items');
+        Schema::dropIfExists('payment_infos');
     }
 }

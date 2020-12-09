@@ -13,11 +13,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
-use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use TalihoNotifiable, SoftDeletes, ReceivesWelcomeNotification, HasRoles, Billable;
+    use TalihoNotifiable, SoftDeletes, ReceivesWelcomeNotification, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +31,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'organization_id',
         'mobile_phone',
         'is_first',
-        'deleted_at'
+        'deleted_at',
+        'stripe_id',
+        'card_brand',
+        'card_last_four',
+        'trial_ends_at'
     ];
 
     /**
@@ -217,4 +220,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasRole(Role::PROJECT_MANAGER) && $organization->employees->contains($this);
     }
+
+    
 }

@@ -1,5 +1,5 @@
 <template>
-    <base-auth title="Please Sign Up" lgSize=8>
+    <base-auth title="Please Sign Up" lgSize="8">
         <v-stepper v-model="currentStep">
             <v-stepper-header>
                 <v-stepper-step step="1" editable>
@@ -35,11 +35,39 @@
             </v-stepper-content>
 
             <v-stepper-content step="3">
-               <checkout 
-                    :userInfo.sync="formData.userInfo"
+                <div id="app">
+                    <v-row>
+                        <v-col cols="12">
+                            <card
+                                class="stripe-card"
+                                :class="{ complete }"
+                                stripe="pk_test_51Hv6tcBhv1ikQ8E6C1hg7nGGfc00vaUj1MFBuFm7iwp2obK12SjJRJySZqZ0HFjbTpjWahcWhgcuKPewlXhK1DEk00CNr4RgnU"
+                                :options="stripeOptions"
+                                @change="complete = $event.complete"
+                            />
+                        </v-col>
+                    </v-row>
+
+                    <v-row justify="center">
+                        <v-col cols="10">
+                            <v-btn
+                                class="mx-4"
+                                color="primary darken-2"
+                                @click="pay"
+                                :disabled="!complete"
+                            >
+                                Pay with credit card And Register
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                </div>
+
+                <!-- <checkout
+                    :payInfo.sync="formData.payInfo"
                     @valid="updateUserInfoStatus"
-                    @next="next">
-               </checkout>
+                    @submit="submit"
+                >
+                </checkout> -->
             </v-stepper-content>
         </v-stepper>
     </base-auth>
@@ -52,7 +80,10 @@ import Layout from "../../Shared/Layout";
 
 import Company from "./RegisterStep/Company";
 import User from "./RegisterStep/User";
+
 import Checkout from "./RegisterStep/Checkout";
+
+import { Card, createToken } from "vue-stripe-elements-plus";
 
 export default {
     layout: Layout,
@@ -60,12 +91,14 @@ export default {
         BaseAuth,
         Company,
         User,
-        Checkout
+        Checkout,
+        Card
     },
     mixins: [FormValidation],
     data() {
         return {
-            currentStep: 3,
+            complete: false,
+            currentStep: 1,
             companyInfoValid: false,
             userInfoValid: false,
             formData: {
@@ -84,13 +117,17 @@ export default {
                     phone: "",
                     password: "",
                     password_confirmation: ""
+                },
+                payInfo: {
+                    token: "",
+                    card_last4:"",
+                    card_brand:"",
                 }
-            }
+            },
+            stripeOptions: {}
         };
     },
-    created() {
-        console.log("vudddde ke created", process.env.VUE_APP_STRIPE_API_KEY);
-    },
+    created() {},
     methods: {
         next() {
             this.currentStep = parseInt(this.currentStep) + 1;
@@ -105,24 +142,33 @@ export default {
         updateUserInfoStatus(value) {
             this.userInfoValid = value;
         },
-        submit() {
-            this.$inertia.visit(this.route("register"), {
-                data: this.formData,
-                method: "post"
+        async submit() {
+            this.$inertia.post("/register", {
+                formData: this.formData
+            });
+        },
+        pay() {
+            this.complete=false;
+            // See https://stripe.com/docs/api#tokens for the token object.
+            // See https://stripe.com/docs/api#errors for the error object.
+            // More general https://stripe.com/docs/stripe.js#stripe-create-token.
+            createToken().then(data => {
+                console.log('toekn', data.token)
+                this.formData.payInfo.token = data.token.id;
+                this.formData.payInfo.card_brand = data.token.card.brand;
+                this.formData.payInfo.card_last4 = data.token.card.last4;
+                this.submit();
             });
         }
-        //   toggleDefault(value) {
-        //       this.formData.disciplineData.saveDefaults = value;
-        //   },
-        //   setSelectedDisciplines(value) {
-        //       this.formData.disciplineData.selected = value;
-        //   },
-        //   updateLead({ newLead, discipline_id }) {
-        //       const index = this.formData.disciplineData.selected.findIndex(
-        //           item => item.id === discipline_id
-        //       );
-        //       this.formData.disciplineData.selected[index].lead = newLead;
-        //   },
     }
 };
 </script>
+
+<style>
+.stripe-card {
+    border: 1px solid grey;
+}
+.stripe-card.complete {
+    border-color: green;
+}
+</style>

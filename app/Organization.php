@@ -29,8 +29,7 @@ class Organization extends Model
     protected $appends = ['path'];
 
     protected $hidden = [
-        'account_status',
-        'account_type',
+        // 'account_status',
     ];
 
     public function getPathAttribute()

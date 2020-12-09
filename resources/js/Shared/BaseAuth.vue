@@ -37,7 +37,6 @@ export default {
         lgSize: {
             type: String,
             default: '4',
-            required: true
         }
     }
 };

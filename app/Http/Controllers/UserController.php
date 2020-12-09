@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Enum\Role;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use App\Organization;
+use App\PaymentInfo;
 use App\Services\UserService;
 use App\User;
 use App\ProjectDiscipline;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -30,20 +33,20 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $user = User::withTrashed()->where('email', $request -> data()['email'])->first();
+        $user = User::withTrashed()->where('email', $request->data()['email'])->first();
 
         if ($user === null) {
             $user  = User::create($request->data())->assignRole(Role::USER);
-            $user -> save();
-            $user ->sendSetPasswordEmail($request->user());
+            $user->save();
+            $user->sendSetPasswordEmail($request->user());
         }
 
-        $user -> deleted_at = null;
+        $user->deleted_at = null;
 
-        $user -> save();
+        $user->save();
 
-        if (array_key_exists('discipline', $request -> data())) {
-            $projectDiscipline = ProjectDiscipline::where('id',$request -> data()['discipline']) -> first();
+        if (array_key_exists('discipline', $request->data())) {
+            $projectDiscipline = ProjectDiscipline::where('id', $request->data()['discipline'])->first();
             if ($projectDiscipline->team()->doesntExist()) {
                 $projectDiscipline->active_at = today();
                 $projectDiscipline->save();
@@ -61,7 +64,8 @@ class UserController extends Controller
         return Inertia::render('User/Edit', [
             'user' => $user,
             'organization' => $user->organization,
-            'company' => $user->company
+            // 'company' => $user->company,
+            'company' => $user->organization
         ]);
     }
 
@@ -117,7 +121,62 @@ class UserController extends Controller
         return Redirect::back()->with('success', 'Employee removed.');
     }
 
-    public function test(){
-        return Inertia::render('Auth/RegisterStep/Checkout');
+    public function cancel_subscription()
+    {
+        $user = auth()->user();
+        $sub = PaymentInfo::where('user_id', $user->id)->where('status', 'current')->first();
+        try {
+            if ($sub) {
+                $sub->status = "cancel";
+                $sub->save();
+                $stripe_sk = config('services.stripe.sk');
+                $stripe = new \Stripe\StripeClient($stripe_sk);
+                $stripe->subscriptions->cancel(
+                    $sub->sub_id,
+                );
+                $organization = Organization::find($user->organization_id);
+                $organization->account_status = 'INACTIVE';
+                $organization->save();
+            }
+            return redirect()->back()->with('success', 'Suceess');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'No such subscription');
+        }
     }
+
+    public function retry_subscription()
+    {
+        $user = auth()->user();
+        $sub = PaymentInfo::where('user_id', $user->id)->first();
+        try {
+            if ($sub) {
+                $customer_id = $sub->customer_id;
+
+                $stripe_pk = config('services.stripe.sk');
+                $stripe_price_id = config('services.stripe.price_id');
+                $stripe = new \Stripe\StripeClient($stripe_pk);
+                $subscription = $stripe->subscriptions->create([
+                    'customer' => $customer_id,
+                    'items' => [
+                        ['price' => $stripe_price_id],
+                    ],
+                    'trial_end' => strtotime(Carbon::now()->addDay(14)->toDateString()),
+                ]);
+
+                PaymentInfo::create([
+                    'user_id' => $user->id,
+                    'sub_id' => $subscription['id'],
+                    'customer_id' => $customer_id,
+                    'status' => 'current'
+                ]);
+                $organization = Organization::find($user->organization_id);
+                $organization->account_status = 'ACTIVE';
+                $organization->save();
+            }
+            return redirect()->back()->with('success', 'Suceess');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'No such subscription');
+        }
+    }
+
 }

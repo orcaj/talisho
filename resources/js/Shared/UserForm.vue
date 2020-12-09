@@ -1,5 +1,5 @@
 <template>
-    <base-form :title="user.isRegistered ? 'Edit Profile' : 'Set Profile'">
+    <base-form :isActive="formData.company_account_status" :title="user.isRegistered ? 'Edit Profile' : 'Set Profile'">
         <template>
             <v-form @submit.prevent="submit" id="set-profile">
                 <v-col>
@@ -151,11 +151,6 @@
                             type="password"
                             v-model="formData.password_confirmation"
                     />
-
-
-
-
-
                 </v-col>
             </v-form>
         </template>
@@ -198,6 +193,7 @@
             }
         },
         data() {
+            console.log("asdfasdf", this.user)
             return {
                 formData: {
                     email: this.user.email,
@@ -213,7 +209,7 @@
                     company_city: this.company.city,
                     company_state: this.company.state,
                     company_zip: this.company.zip,
-
+                    company_account_status:this.company.account_status
                 },
             }
         },
