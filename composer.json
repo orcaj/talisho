@@ -14,7 +14,8 @@
         "fideloper/proxy": "^4.0",
         "inertiajs/inertia-laravel": "^0.2.4",
         "laravel/framework": "^6.2",
-        "laravel/nova": "*",
+        "laravel/horizon": "^3.4",
+        "laravel/nova": "~2.0",
         "laravel/tinker": "^2.0",
         "league/csv": "^9.6",
         "league/flysystem-aws-s3-v3": "^1.0",
@@ -24,7 +25,6 @@
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-permission": "^3.6",
         "spatie/laravel-welcome-notification": "^1.0",
-        "stripe/stripe-php": "^7.66",
         "tightenco/ziggy": "^0.8.1"
     },
     "require-dev": {
@@ -77,8 +77,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "./nova"
+            "type": "composer",
+            "url": "https://nova.laravel.com"
         }
     ]
 }
