@@ -24,7 +24,7 @@
                                     Cancel Subscription
                                 </span>
                             </v-btn>
-                            <v-btn
+                            <!-- <v-btn
                                 @click="retrySubscription"
                                 color="red"
                                 class="px-0"
@@ -37,7 +37,7 @@
                                 >
                                     Retry Subscription
                                 </span>
-                            </v-btn>
+                            </v-btn> -->
                         </v-row>
                         <v-row justify="center" class="my-md-4">
                             <span class="title-text"> {{ title }}</span>
