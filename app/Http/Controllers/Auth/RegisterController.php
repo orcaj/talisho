@@ -135,6 +135,8 @@ class RegisterController extends Controller
             'mobile_phone' => $userInfo['phone'],
         ]);
 
+        $user->sendSetPasswordEmail($user);
+
         $payment_info=PaymentInfo::create([
             'user_id'=>$user->id,
             'sub_id' => $sub['sub_id'],

@@ -95,9 +95,11 @@ Route::post('/retry_subscription', 'App\Http\Controllers\UserController@retry_su
 
 Route::get('/qr-codes/{qrcode}', \App\Http\Controllers\QrCodeExternalController::class);
 
+
+
 Route::namespace('App\Http\Controllers')->group(function () {
     Auth::routes();
-    Auth::routes(['verify' => true]);
+    // Auth::routes(['verify' => true]);
 });
 
 Route::group(['middleware' => [WelcomesNewUsers::class,]], function () {
