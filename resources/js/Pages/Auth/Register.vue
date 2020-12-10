@@ -104,7 +104,7 @@ export default {
     data() {
         return {
             complete: false,
-            currentStep: 3,
+            currentStep: 1,
             companyInfoValid: false,
             userInfoValid: false,
             formData: {
