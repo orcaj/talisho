@@ -151,7 +151,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        $stripe_pk = config('services.stripe.sk');
+        $stripe_pk = config('services.stripe.pk');
         return Inertia::render('Auth/Register', [
             'stripe_pk' => $stripe_pk
         ]);

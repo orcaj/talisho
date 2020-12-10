@@ -41,7 +41,7 @@
                             <card
                                 class="stripe-card"
                                 :class="{ complete }"
-                                stripe="{stripe_pk}"
+                                :stripe="stripe_pk"
                                 :options="stripeOptions"
                                 @change="complete = $event.complete"
                             />
@@ -103,9 +103,8 @@ export default {
     mixins: [FormValidation],
     data() {
         return {
-            // stripe_pk:"",
             complete: false,
-            currentStep: 1,
+            currentStep: 3,
             companyInfoValid: false,
             userInfoValid: false,
             formData: {
