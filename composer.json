@@ -25,6 +25,7 @@
         "simplesoftwareio/simple-qrcode": "^2.0",
         "spatie/laravel-permission": "^3.6",
         "spatie/laravel-welcome-notification": "^1.0",
+        "stripe/stripe-php": "^7.66",
         "tightenco/ziggy": "^0.8.1"
     },
     "require-dev": {
