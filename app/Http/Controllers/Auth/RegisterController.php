@@ -76,6 +76,7 @@ class RegisterController extends Controller
 
         $stripe_sk = config('services.stripe.sk');
         $stripe_price_id = config('services.stripe.price_id');
+        $trial_day=config('services.stripe.trial_day');
 
         $stripe = new \Stripe\StripeClient($stripe_sk);
         $customer = $stripe->customers->create([
@@ -91,7 +92,7 @@ class RegisterController extends Controller
             'items' => [
                 ['price' => $stripe_price_id],
             ],
-            'trial_end' => strtotime(Carbon::now()->addDay(14)->toDateString()),
+            'trial_end' => strtotime(Carbon::now()->addDay($trial_day)->toDateString()),
             // 'trial_end' => 'now',
         ]);
         return ['sub_id' => $subscription['id'], 'customer_id' => $customer['id']];

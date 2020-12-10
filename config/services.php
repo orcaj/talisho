@@ -34,6 +34,8 @@ return [
         'pk' => env('STRIPE_PUBLIC_KEY'),
         'sk' => env('STRIPE_SECRET_KEY'),
         'price_id' => env('STRIPE_PRICE_ID'),
+        'trial_day' => env('STRIPE_TRIAL_DAY'),
+        
         
         'test_hook' => env('STRIPE_TEST_WEB_HOOK'),
         'live_hook' => env('STRIPE_LIVE_WEB_HOOK'),
