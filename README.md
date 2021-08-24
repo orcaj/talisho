@@ -7,7 +7,7 @@
 3. Set .env.testing APP_ENV=testing
 4. Set DB_DATABASE=testing 
 5. Set DB_USERNAME=root
-6. Set DB_PASSWORD=root
+6. Set DB_PASSWORD=
 
 
 ### Setup QR Codes
